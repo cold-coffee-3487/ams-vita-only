@@ -1,0 +1,26 @@
+Bit Number,Error Bit Flag or Sub-Field,Notes
+31:29,"Schedule Request Payload Field Causing Rejection, CIF #","If rejection is not tied to a specific Schedule Request Payload Field, the CIF # (bits 31:29 and CIF Bit # (bits 28:24) fields shall be set to 0xE0 ('11100000')"
+28:24,"Schedule Request Payload Field Causing Rejection, Bit # in CIF",
+23:0,Reject Reason Enumeration Index (RREI),
+0,Not Applicable,Request was not rejected
+1,Malformed Packet,"Unable to parse packet, or important elements missing or invalid"
+2,Bad Stream ID,Stream ID exsits but is not a valid value
+3,Resource does not exist,
+4,Resource not working,
+5,Resource too busy,
+6,Resource conflict,"Schedule conflicts with higher priority user detected before scheduling, other than previous"
+7,Previously scheduled event pre-empted,Schedule conflict with higher priority user developed after scheduleing
+8,"Insufficient lead time, or too late",Execution time too close to command time
+9,Excessive lead time,Exectution time too far from command time
+10,Bad Time Stamp,Time stamp exists but is in error for reasons other than preceeding
+11,Command buffer full,
+12,Data buffer full,
+13,Insufficient network capacity,
+14,Retry requested,Condition that prevents scheduling is expected to end soon
+15,Parameter missing,Required parameter is not present in packet
+16,Parameter out of range,Parameter is present in packet but is not an allowed value
+17,Pointing vector outside FOR,"Pointing Vector is correctly formatted and within allowed range for antenna, but antenna cannot point in requested direction, e.g. blockage"
+18,EIRP outside allowed range at pointing angle,"Requested EIRP is inside overall range, but cannot be met at the requested pointing angle"
+19,Parameter combination not supported,"Althoug all individual parameters are inside their allowed ranges, this combination of parameter values is not supported"
+20:8388607,TBD: Working Group,20:(2^23-1)
+8388608:16777215,TBD: MFA Integrator,(2^23):(2^24-1)

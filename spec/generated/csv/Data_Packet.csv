@@ -1,0 +1,44 @@
+Group/Word/CIF,Requirement,Group Notes,Word,Bit,Designation,Bit Used,Default Value,Range,Function,Time Determined,Time When Payload Value Determined
+.header,Mandatory,,1,31:28,.type,B,0001,0001,Packet Type: 0001 => Signal Data Packet with Stream Identifier; Type 0000 =>  Signal Data Packet without Stream Identifier,Fixed,N/A
+.header,Mandatory,,,27,.cBit,B,1,1,Indicates whether CLASS ID is included in the prologue,Fixed,N/A
+.header,Mandatory,,,26,.tBit,B,1,1,Indicates whether this packet has a trailer word,Fixed,N/A
+.header,Mandatory,,,25,.notV49p0Packet,E,0,0,Indicates whether this is a VITA 49.0 compliant packet,N/A,N/A
+.header,Mandatory,,,24,.sBit,E,0,0,Indicates whether packet contains spectrum data,Fixed,N/A
+.header,Mandatory,,,23:22,.tsi,B,11,11,"Indicates: 00 No int seconds time stamp, 01 => UTC, 10 => GPS, 11 => Other",Fixed per VA Definition,N/A
+.header,Mandatory,,,21:20,.tsf,B,10,10,"Indicates: 00 => No frac seconds field, 01 => sample count, 10 => picoseconds, 11 => free running count",Fixed per VA Definition,N/A
+.header,Mandatory,,,19:16,.packetCount,B,0,0:15,4-Bit Packet sequence number for this packet type in this streamID,Dynamic,N/A
+.header,Mandatory,,,15:0,.packetSize,B,N/A,0:2^16-1,Total number of 32-bit words in the packet including the prologue; computed from the final packet word count.,Fixed per VA Definition,N/A
+.streamId (Stream Identifier),Mandatory,,2,31:0,.sid,B,1,,Stream ID provided in associated AckR packets used to schedule access.,VA Initialization,N/A
+.classId (Class Identifier),Mandatory,,3,31:27,.padBitCount,N,0,0:2^5-1,Number of pad bits (0…31) at the end of the packet to hit a 32-bit word boundary. Not used by Base Set.  16-bit I/Q samples always fill each word.,Fixed per VA Definition,N/A
+.classId (Class Identifier),Mandatory,,,26:24,.reservedBits26to24,N,0,0,Reserved,N/A,N/A
+.classId (Class Identifier),Mandatory,,,23:0,.oui,B,0xAAAAAA,0xAAAAAA,Organizationally Unique Identifier (OUI),Fixed per VA Definition,N/A
+.classId (Class Identifier),Mandatory,,4,31:24,.infoClassCode_Type,B,0x04,4:5,"0 => Unknown; 1 => TxComm, 2 => RxComm, 3 => Sensor;  4 => TxComm base set; 5 => RxComm Base Set; 6 => TxComm extended set 1; 7 => RxComm extended set 1; 8 => TxComm  extended set 2; 9 => RxComm extended set 2; (10-255) => TBD",Fixed per VA Definition,N/A
+.classId (Class Identifier),Mandatory,,,23:16,.infoClassCode_Version,B,0x00,0:2^8-1,Version number of information class,Fixed per VA Definition,N/A
+.classId (Class Identifier),Mandatory,,,15:8,.packetClassCode_Type,B,0x0D,0x0D,"Defined PacketTypes:  0x00 => undefined, 0x0A => Base Set Control ScheduleRequest, 0x0B => Base Set Schedule Acknowledge (AckR),  0x0C => Base Set Execution Acknowledge (AckX), 0x0D => Base Set Data, 0x0E => Base Set DataContext",,
+.classId (Class Identifier),Mandatory,,,7:0,.packetClassCode_Version,B,0x05,0:2^8-1,Version of Packet Class definition for specified type,,
+.timeStamp (Time Stamp),Mandatory,,5,31:0,.tsi,B,1,0:2^32-1,"UTC seconds since midnight, Jan. 1, 2019",Dynamic within per VA limits,N/A
+.timeStamp (Time Stamp),Mandatory,,6,31:0,.tsf,B,0,0:2^32-1,Most-significant (Upper 32 bits) pico seconds since last seconds update,Dynamic within per VA limits,N/A
+.timeStamp (Time Stamp),Mandatory,,7,31:0,.tsfLower,B,0,0:2^32-1,Least-significant (Lower 32 bits) pico seconds since last seconds update,Dynamic within per VA limits,N/A
+.trailer,Mandatory,,N+1,31,.calibratedTimeIndicatorEnable,N,0,0,Calibrated-time trailer reporting is not used in the AMS Base Set; set to zero,,
+.trailer,Mandatory,,,30,.validDataIndicatorEnable,N,0,0,Valid-data trailer reporting is not used in the AMS Base Set; set to zero,,
+.trailer,Mandatory,,,29,.referenceLockIndicatorEnable,E,0,0,Enables whether bit 17 indicates a valid status,,
+.trailer,Mandatory,,,28,.agcIndicatorEnable,E,0,0,Enables whether bit 16 indicates a valid status,,
+.trailer,Mandatory,,,27,.detectedSignalIndicatorEnable,E,0,0,Enables whether bit 15 indicates a valid status,,
+.trailer,Mandatory,,,26,.spectralInversionIndicatorEnable,N,0,0,Spectral inversion trailer reporting is not used in the AMS Base Set; set to zero,,
+.trailer,Mandatory,,,25,.overRangeIndicatorEnable,E,0,0,Enables whether bit 13 indicates a valid status,,
+.trailer,Mandatory,,,24,.sampleLossIndicatorEnable,E,0,0,Enables whether bit 12 indicates a valid status,,
+.trailer,Mandatory,,,23:22,.sampleFrameIndicatorEnables,B,11,0:3,"Enables whether bits 11:10 below (.sampleFrameIndicators) contain valid status bits. Bits 23:22 => 11 then Bits 11:10 indicate the packet's role in transporting a large (multi-packet) data frame, where bits 23:22 => 11 and bits 11:10 => 00 indicates a single packet caries the entire data frame. Bits 23:22 => any value but 11 then 11:10 are not valid indicators.",,
+.trailer,Mandatory,,,21:20,.userDefinedIndicatorEnables,N,0,0,1 => Enables user-defined bits 9:8 (.userDefinedIndicators) to indicate user defined  status.,,
+.trailer,Mandatory,,,19,.calibratedTimeIndicator,N,0,0,Calibrated-time trailer reporting is not used in the AMS Base Set; set to zero,,
+.trailer,Mandatory,,,18,.validDataIndicator,N,0,0,Valid-data trailer reporting is not used in the AMS Base Set; set to zero,,
+.trailer,Mandatory,,,17,.referenceLockIndicator,E,0,0,"1 =>(and bit 29 => 1), shall indicate that any phase-locked loops affecting the Data are locked and stable. 0 =>  (and bit 29 => 1) indicates at least one PLL is not locked and stable.",,
+.trailer,Mandatory,,,16,.agcIndicator,E,0,0,"1 => (and bit 28 => 1),  indicates that AGC is active.  0 => (and bit 28 => 1),  indicates MGC.",,
+.trailer,Mandatory,,,15,.detectedSignalIndicator,E,0,0,"1 => (and bit 27 => 1), indicates the data contained in the packet contains some detected signal. 0 =>  (and bit 27 => 1), indicates the packet does not contain some detected signal.",,
+.trailer,Mandatory,,,14,.spectralInversionIndicator,N,0,0,"1 => (and bit 26 => 1),indicates  the signal conveyed in the data payload has an inverted spectrum with respect to the spectrum of the signal at the system Reference Point.",,
+.trailer,Mandatory,,,13,.overRangeIndicator,E,0,0,"1 => (and bit 25 => 1),indicates that at least one Data Sample in the payload is invalid due to the signal exceeding the range of the Data Item.",,
+.trailer,Mandatory,,,12,.sampleLossIndicator,E,0,0,"1 => (and bit 24 => 1), indicates the packet contains at least one sample discontinuity due to processing errors and/or buffer overflow.",,
+.trailer,Mandatory,,,11:10,.sampleFrameIndicators,B,00,"00, 01,
+10, 11","When bits 23:22 => '11' then bits 11:10 indicate this data packet's position in a data frame spanning mulitple data packets. Bits 11:10 = '00' => sample frame is one data packet, '01' => First data packet of a sample frame, '10' => Middle data packet of a sample frame, '11' => Final data packet of a sample frame. If a data stream is preempted in the middle of a data frame spanning mulitple data packets, bits 11:10 in the last data packet sent shall be '11'.",,
+.trailer,Mandatory,,,9:8,.userDefinedIndicators,N,0,0,"00, 01, 10, 11 are user defined status states of the data packet.",,
+.trailer,Mandatory,,,7,.eBit,N,0,0,"Associated Context Packet Count Enable. When the E bit is set to 1, the Associated Context Packet Count shall provide a count of all of transmitted Context packets that are directly or indirectly associated with the Signal Data packet, OR a count of some special subset of these. When the E bit is cleared, the Associated Context Packet Count is undefined.",,
+.trailer,Mandatory,,,6:0,.assocContextPacketCount,N,0,0,"When used, the 7-bit Associated Context Packet Count field shall contain an unsigned number in the range of zero to 127 inclusive. The lsb of the number shall be the right-most bit in the field.",,

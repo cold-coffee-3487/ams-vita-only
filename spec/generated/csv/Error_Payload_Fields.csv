@@ -1,0 +1,30 @@
+Bit Number,Error Bit Flag or Sub-Field,Notes
+31,Field Not Executed,
+30,Device Failure,
+29,Erroneous Field (field not settable on this device),
+28,Parameter Out-Of-Range,
+27,Parameter Precision Not Supported,
+26,Field Value Invalid (other than previous errors),
+25,Timestamp Problem,
+24,Will Create Hazardous Power Levels,
+23,Will Cause Distortion,
+22,In-Band Power Out of Compliance,
+21,Out-of-Band Power Out of Compliance,
+20,Will Cause Co-Site Interference,
+19,Will Cause Regional Interference,
+18,Reserved,
+17:15,Schedule Request Erroneous Payload Field CIF #,"If the reported error is not tied to a specific Schedule Request Payload Field, the CIF # (bits 17:15) and CIF Bit # (bits 14:10) fields shall be set to 0xE0 ('11100000')"
+14:10,Schedule Request Erroneoous Payload Field Bit # in CIF,
+9:0,Error Enumeration Index (EEI),
+,,"The EEI is a 10-bit unsigned integer with bit 9 as the MSB and bit 0 as the LSB. Each EEI value points to a different element of the Error Enumeration. As shown, higher index values are reserved for use by the MFA integrator to indicate MFA-specific errors."
+EEI,Reason,
+0,No Error,
+1,Resource does not exist,
+2,Resource not working,
+3,Resource Conflict,
+4,Parameter out of range,
+5,Pointing vector outside FOR,
+6,Time Out,"Expected information or data (e.g., Tx Data Packets) not received in time to execute"
+7,EIRP outside allowed range at pointing angle,"Requested EIRP is inside overall range, but cannot be met at the requested pointing angle"
+8:511,To be defined by Working Group,
+512:1022,MFA Specific: To be defined by MFA integrator,
