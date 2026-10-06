@@ -1,0 +1,22 @@
+{
+  "name": "C++ / CMake / Protobuf / ZeroMQ Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "cmake.configureOnOpen": true,
+        "C_Cpp.default.cppStandard": "c++17",
+        "C_Cpp.default.compilerPath": "/usr/bin/g++"
+      },
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "zxh4.vscode-proto3"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}
